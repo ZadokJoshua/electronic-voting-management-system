@@ -1,7 +1,12 @@
-﻿namespace ElectronicVotingSystem.WebAPI.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace ElectronicVotingSystem.WebAPI.Models;
 
 public class Candidate
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     public required Guid PositionId { get; set; }
     public required Position Position { get; set; }

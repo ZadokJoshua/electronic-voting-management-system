@@ -1,6 +1,14 @@
+using ElectronicVotingSystem.WebAPI.DbContexts;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<ElectronicVotingSystemDbContext>(dbContextOptions =>
+{
+    dbContextOptions.UseSqlServer(builder.Configuration["AzureSqlServer:ConnectionString"]);
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

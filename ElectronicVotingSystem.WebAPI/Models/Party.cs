@@ -1,7 +1,12 @@
-﻿namespace ElectronicVotingSystem.WebAPI.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ElectronicVotingSystem.WebAPI.Models;
 
 public class Party
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     public required Guid ElectionId { get; set; }
     public required Election Election { get; set; }
