@@ -1,9 +1,10 @@
-﻿namespace ElectronicVotingSystem.WebAPI.Entities;
+﻿namespace ElectronicVotingSystem.WebAPI.Models;
 
 public class Election
 {
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
+    public required User User { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
     public string? Instructions { get; set; }
@@ -14,4 +15,7 @@ public class Election
     public DateTime EndDate { get; set; }
     public string? TimeZone { get; set; }
     public bool HasVotingEnded { get; set; }
+
+    public ICollection<Party> Parties { get; set; }
+    public ICollection<Position> Positions { get; set; }
 }

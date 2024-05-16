@@ -1,11 +1,14 @@
-﻿namespace ElectronicVotingSystem.WebAPI.Entities;
+﻿namespace ElectronicVotingSystem.WebAPI.Models;
 
 public class Party
 {
     public Guid Id { get; set; }
-    public Guid ElectionId { get; set; }
+    public required Guid ElectionId { get; set; }
+    public required Election Election { get; set; }
     public required string Name { get; set; }
     public string? Motto { get; set; }
     public string? About { get; set; }
     public string? IconUrl { get; set; }
+
+    public ICollection<Candidate> Candidates { get; set; }
 }
