@@ -8,12 +8,23 @@ public class Party
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
-    public required Guid ElectionId { get; set; }
-    public required Election Election { get; set; }
+
+    [Required]
+    public Guid ElectionId { get; set; }
+    public Election Election { get; set; }
+
+    [Required]
+    [StringLength(100)]
     public required string Name { get; set; }
+
+    [StringLength(100)]
     public string? Motto { get; set; }
+
+    [StringLength(300)]
     public string? About { get; set; }
+
+    [Url]
     public string? IconUrl { get; set; }
 
-    public ICollection<Candidate> Candidates { get; set; }
+    public ICollection<Candidate>? Candidates { get; set; }
 }

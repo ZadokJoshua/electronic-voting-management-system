@@ -8,10 +8,18 @@ public class Position
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
-    public required Guid ElectionId { get; set; }
-    public required Election Election { get; set; }
+
+    [Required]
+    [ForeignKey(nameof(ElectionId))]
+    public Guid ElectionId { get; set; }
+    public Election Election { get; set; }
+
+    [Required]
+    [StringLength(100)]
     public required string Title { get; set; }
+
+    [StringLength(300)]
     public string? Description { get; set; }
 
-    public ICollection<Candidate> Candidates { get; set; }
+    public ICollection<Candidate>? Candidates { get; set; }
 }

@@ -8,11 +8,20 @@ public class Candidate
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
-    public required Guid PositionId { get; set; }
-    public required Position Position { get; set; }
-    public required Guid PartyId { get; set; }
-    public required Party Party { get; set; }
+
+    [ForeignKey(nameof(PositionId))]
+    public Guid? PositionId { get; set; }
+    public Position? Position { get; set; }
+
+    [ForeignKey(nameof(PartyId))]
+    public Guid? PartyId { get; set; }
+    public Party? Party { get; set; }
+
+    [Required]
+    [StringLength(100)]
     public required string Name { get; set; }
+    [StringLength(300)]
     public string? About { get; set; }
+    [Url]
     public string? PhotoUrl { get; set; }
 }

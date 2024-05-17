@@ -12,26 +12,26 @@ public class ElectronicVotingSystemDbContext(DbContextOptions<ElectronicVotingSy
     public DbSet<Position> Positions { get; set; }
     public DbSet<Vote> Votes { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Party>()
-            .HasOne(p => p.Election)
-            .WithMany(e => e.Parties)
-            .HasForeignKey(p => p.ElectionId);
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    modelBuilder.Entity<Party>()
+    //        .HasOne(p => p.Election)
+    //        .WithMany(e => e.Parties)
+    //        .HasForeignKey(p => p.ElectionId);
 
-        modelBuilder.Entity<Position>()
-           .HasOne(p => p.Election)
-           .WithMany(e => e.Positions)
-           .HasForeignKey(p => p.ElectionId);
+    //    modelBuilder.Entity<Position>()
+    //       .HasOne(p => p.Election)
+    //       .WithMany(e => e.Positions)
+    //       .HasForeignKey(p => p.ElectionId);
 
-        modelBuilder.Entity<Candidate>()
-           .HasOne(c => c.Party)
-           .WithMany(p => p.Candidates)
-           .HasForeignKey(c => c.PartyId);
+    //    modelBuilder.Entity<Candidate>()
+    //       .HasOne(c => c.Party)
+    //       .WithMany(p => p.Candidates)
+    //       .HasForeignKey(c => c.PartyId);
 
-        modelBuilder.Entity<Candidate>()
-           .HasOne(c => c.Position)
-           .WithMany(p => p.Candidates)
-           .HasForeignKey(p => p.PositionId);
-    }
+    //    modelBuilder.Entity<Candidate>()
+    //       .HasOne(c => c.Position)
+    //       .WithMany(p => p.Candidates)
+    //       .HasForeignKey(p => p.PositionId);
+    //}
 }
