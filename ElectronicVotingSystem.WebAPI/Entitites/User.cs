@@ -1,4 +1,4 @@
-﻿namespace ElectronicVotingSystem.WebAPI.Models;
+﻿namespace ElectronicVotingSystem.WebAPI.Entitites;
 
 public class User
 {

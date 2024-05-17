@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ElectronicVotingSystem.WebAPI.Models;
+namespace ElectronicVotingSystem.WebAPI.Entitites;
 
 public class Candidate
 {

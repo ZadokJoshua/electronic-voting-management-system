@@ -1,8 +1,7 @@
-﻿using ElectronicVotingSystem.WebAPI.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ElectronicVotingSystem.WebAPI.Entities;
+namespace ElectronicVotingSystem.WebAPI.Entitites;
 
 public class Vote
 {
