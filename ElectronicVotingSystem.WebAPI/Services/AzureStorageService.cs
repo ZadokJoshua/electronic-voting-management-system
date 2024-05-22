@@ -59,8 +59,8 @@ public class AzureStorageService(IConfiguration configuration) : IAzureStorageSe
                 response.Status = "File uploaded Successfully.";
             }
         }
-        catch (RequestFailedException ex)
-      when (ex.ErrorCode == BlobErrorCode.BlobAlreadyExists)
+        catch (RequestFailedException ex) 
+        when (ex.ErrorCode == BlobErrorCode.BlobAlreadyExists)
         {
             response.Status = $"File already exists.";
             response.Error = true;

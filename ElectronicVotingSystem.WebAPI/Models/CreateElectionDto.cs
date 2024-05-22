@@ -1,14 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ElectronicVotingSystem.WebAPI.Entitites;
+namespace ElectronicVotingSystem.WebAPI.Models;
 
-public class Election : IEntity
+public class CreateElectionDto
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
-
     [Required]
     [StringLength(100)]
     public required string Name { get; set; }
@@ -29,7 +24,4 @@ public class Election : IEntity
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public string? TimeZone { get; set; }
-
-    public ICollection<Party>? Parties { get; set; }
-    public ICollection<Position>? Positions { get; set; }
 }

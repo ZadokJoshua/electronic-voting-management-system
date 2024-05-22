@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ElectronicVotingSystem.WebAPI.Entitites;
 
-public class Position
+public class Position : IEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
