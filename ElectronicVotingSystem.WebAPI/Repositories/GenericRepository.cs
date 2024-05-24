@@ -2,6 +2,7 @@
 using ElectronicVotingSystem.WebAPI.Entitites;
 using ElectronicVotingSystem.WebAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ElectronicVotingSystem.WebAPI.Repositories;
 
@@ -9,37 +10,32 @@ public class GenericRepository<T>(ElectronicVotingSystemDbContext dbContext) : I
 {
     protected readonly ElectronicVotingSystemDbContext _dbContext = dbContext;
 
-    public async Task<T> AddAsync(T entity)
+    public void Add(T entity)
     {
-        await _dbContext.Set<T>().AddAsync(entity);
-        // await _dbContext.SaveChangesAsync(); Should be done in the controller
-        return entity;
+        _dbContext.Set<T>().AddAsync(entity);
     }
 
     public async Task AddRangeAsync(IEnumerable<T> entitites)
     {
        await _dbContext.Set<T>().AddRangeAsync(entitites);
-        // await _dbContext.SaveChangesAsync(); Should be done in the controller
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync() => await _dbContext.Set<T>().ToListAsync();
+    public IQueryable<T> GetAll() => _dbContext.Set<T>();
 
-    public virtual async Task<T> GetByIdAsync(Guid id)
-    {
-        var entity = await _dbContext.Set<T>().FindAsync(id);
-        return entity;
-    }
+    //public async Task<T> GetByIdAsync(Guid id)
+    //{
+    //    var entity = await _dbContext.Set<T>().FindAsync(id);
+    //    return entity;
+    //}
 
-    public async Task RemoveAsync(T entity)
+    public void Remove(T entity)
     {
         _dbContext.Set<T>().Remove(entity);
-        // await _dbContext.SaveChangesAsync(); Should be done in the controller
     }
 
-    public async Task UpdateAsync(T entity)
+    public void Update(T entity)
     {
         _dbContext.Set<T>().Update(entity);
-        // await _dbContext.SaveChangesAsync(); Should be done in the controller
     }
 
     public async Task<bool> ExistsAsync(Guid id)
@@ -48,4 +44,9 @@ public class GenericRepository<T>(ElectronicVotingSystemDbContext dbContext) : I
     }
 
     public async Task SaveChangesAsync() => await _dbContext.SaveChangesAsync();
+
+    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+    {
+        return _dbContext.Set<T>().Where(expression);
+    }
 }

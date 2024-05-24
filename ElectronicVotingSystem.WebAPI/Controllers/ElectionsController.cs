@@ -16,7 +16,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Election>>> GetAllElections()
         {
-            var elections = await _electionRepository.GetAllAsync();
+            var elections = await _electionRepository.GetAllElectionsAsync();
             return Ok(elections);
         }
 
@@ -25,7 +25,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Election>> GetElectionById(Guid electionId)
         {
-            var election = await _electionRepository.GetByIdAsync(electionId);
+            var election = await _electionRepository.GetElectionByIdAsync(electionId);
 
             if (election == null) 
             { 
@@ -36,30 +36,33 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> CreateElection(CreateElectionDto election)
+        public async Task<ActionResult> CreateElection(CreateElectionDto election)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var electionEntity = new Election
-            {
-                Name = election.Name,
-                Description = election.Description,
-                EndDate = election.EndDate,
-                StartDate = election.StartDate,
-                HasVotingEnded = election.HasVotingEnded,
-                ImageUrl = election.ImageUrl,
-                Instructions = election.Instructions,
-                IsVotingOn = election.IsVotingOn
-            };
+            var electionEntity = election.AsEntity();
 
-            await _electionRepository.AddAsync(electionEntity);
+            _electionRepository.Add(electionEntity);
             await _electionRepository.SaveChangesAsync();
 
-            var createdElectionToReturn = electionEntity.AsDto();
-
-            return CreatedAtRoute(nameof(GetElectionById),
-                new { id = electionEntity.Id }, createdElectionToReturn);
+            return Created();
         }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteElection(Guid electionId)
+        {
+            var election = await _electionRepository.GetElectionByIdAsync(electionId);
+
+            if (election == null) return BadRequest($"Election with ID {electionId} not found!");
+
+            _electionRepository.DeleteElection(election);
+            await _electionRepository.SaveChangesAsync();
+
+            return NoContent();
+        }
+        
     }
 }

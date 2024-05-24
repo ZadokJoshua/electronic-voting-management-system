@@ -19,4 +19,19 @@ public static class EntityExtensions
             IsVotingOn = election.IsVotingOn
         };
     }
+
+    public static Election AsEntity(this CreateElectionDto election)
+    {
+        return new Election
+        {
+            Name = election.Name,
+            Description = election.Description,
+            EndDate = election.EndDate,
+            StartDate = election.StartDate,
+            HasVotingEnded = election.HasVotingEnded,
+            ImageUrl = election.ImageUrl,
+            Instructions = election.Instructions,
+            IsVotingOn = election.IsVotingOn
+        };
+    }
 }
