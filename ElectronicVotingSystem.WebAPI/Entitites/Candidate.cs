@@ -9,6 +9,11 @@ public class Candidate : IEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
+    [Required]
+    [ForeignKey(nameof(User))]
+    public string UserId { get; set; }
+    public User User { get; set; }
+
     [ForeignKey(nameof(PositionId))]
     public Guid? PositionId { get; set; }
     public Position? Position { get; set; }
@@ -16,12 +21,4 @@ public class Candidate : IEntity
     [ForeignKey(nameof(PartyId))]
     public Guid? PartyId { get; set; }
     public Party? Party { get; set; }
-
-    [Required]
-    [StringLength(100)]
-    public required string Name { get; set; }
-    [StringLength(300)]
-    public string? About { get; set; }
-    [Url]
-    public string? PhotoUrl { get; set; }
 }

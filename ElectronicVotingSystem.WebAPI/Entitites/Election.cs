@@ -10,6 +10,11 @@ public class Election : IEntity
     public Guid Id { get; set; }
 
     [Required]
+    [ForeignKey(nameof(User))]
+    public string UserId { get; set; }
+    public User User { get; set; }
+
+    [Required]
     [StringLength(100)]
     public required string Name { get; set; }
 
@@ -23,8 +28,7 @@ public class Election : IEntity
     [Url]
     public string? ImageUrl { get; set; }
     public string? ElectionAccessKey { get; set; }
-    public bool IsVotingOn { get; set; }
-    public bool HasVotingEnded { get; set; }
+    public bool IsElectionActive { get; set; }
 
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }

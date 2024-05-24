@@ -10,10 +10,12 @@ public class Vote : IEntity
     public Guid Id { get; set; }
 
     [Required]
-    [ForeignKey(nameof(ElectionId))]
-    public Guid ElectionId { get; set; }
-    public Election Election { get; set; }
+    [ForeignKey(nameof(CandidateId))]
+    public Guid? CandidateId { get; set; }
+    public Candidate? Candidate { get; set; }
 
-    public bool HasVoted { get; set; }
-    public DateTime VoteDate { get; set; }
+    [Required]
+    [ForeignKey(nameof(BallotId))]
+    public Guid? BallotId { get; set; }
+    public Ballot? Ballot { get; set; }
 }

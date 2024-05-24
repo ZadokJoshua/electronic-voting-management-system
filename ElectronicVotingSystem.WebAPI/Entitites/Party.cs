@@ -20,6 +20,9 @@ public class Party : IEntity
     [StringLength(100)]
     public string? Motto { get; set; }
 
+    [StringLength(10)]
+    public string? Abbreviation { get; set; }
+
     [StringLength(300)]
     public string? About { get; set; }
 

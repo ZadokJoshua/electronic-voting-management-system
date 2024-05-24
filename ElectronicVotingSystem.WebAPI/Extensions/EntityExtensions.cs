@@ -13,10 +13,9 @@ public static class EntityExtensions
             Description = election.Description,
             EndDate = election.EndDate,
             StartDate = election.StartDate,
-            HasVotingEnded = election.HasVotingEnded,
             ImageUrl = election.ImageUrl,
             Instructions = election.Instructions,
-            IsVotingOn = election.IsVotingOn
+            IsVotingOn = election.IsElectionActive
         };
     }
 
@@ -28,10 +27,9 @@ public static class EntityExtensions
             Description = election.Description,
             EndDate = election.EndDate,
             StartDate = election.StartDate,
-            HasVotingEnded = election.HasVotingEnded,
             ImageUrl = election.ImageUrl,
             Instructions = election.Instructions,
-            IsVotingOn = election.IsVotingOn
+            IsElectionActive = election.IsVotingOn
         };
     }
 }
