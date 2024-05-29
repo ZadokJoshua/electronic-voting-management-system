@@ -4,12 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ElectronicVotingSystem.WebAPI.Entitites;
 
-public class User : IdentityUser
+public class AppUser : IdentityUser
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
-
     [Required]
     [StringLength(50)]
     public string FirstName { get; set; }
@@ -28,7 +24,9 @@ public class User : IdentityUser
     public bool CanContest { get; set; } = true;
 
     // If the user wants to be added to an election as a voter
-    public bool CanVote { get; set; }
+    public bool CanVote { get; set; } = true;
+
+    public string Role { get; set; }
 
     public ICollection<Ballot>? Ballots { get; set; }
     public ICollection<Candidate>? Candidates { get; set; }

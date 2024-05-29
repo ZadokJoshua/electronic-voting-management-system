@@ -19,7 +19,7 @@ public static class EntityExtensions
         };
     }
 
-    public static Election AsEntity(this CreateElectionDto election)
+    public static Election AsEntity(this CreateElectionDto election, string userId)
     {
         return new Election
         {
@@ -28,6 +28,7 @@ public static class EntityExtensions
             EndDate = election.EndDate,
             StartDate = election.StartDate,
             ImageUrl = election.ImageUrl,
+            UserId = userId,
             Instructions = election.Instructions,
             IsElectionActive = election.IsVotingOn
         };

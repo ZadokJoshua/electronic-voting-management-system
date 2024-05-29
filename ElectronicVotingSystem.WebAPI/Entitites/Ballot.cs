@@ -17,7 +17,7 @@ namespace ElectronicVotingSystem.WebAPI.Entitites
         [Required]
         [ForeignKey(nameof(VoterId))]
         public string? VoterId { get; set; }
-        public User? User { get; set; }
+        public AppUser? User { get; set; }
 
         public DateTime SubmissionDate { get; set; } = DateTime.UtcNow;
     }

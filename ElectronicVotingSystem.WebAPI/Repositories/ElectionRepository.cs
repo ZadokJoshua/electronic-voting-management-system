@@ -12,9 +12,9 @@ public class ElectionRepository(ElectronicVotingSystemDbContext dbContext) : Gen
         _dbContext.Elections.Remove(election);
     }
 
-    public async Task<IEnumerable<Election>> GetAllElectionsAsync()
+    public async Task<IEnumerable<Election>> GetAllElectionsAsync(string userId)
     {
-        return await GetAll().ToListAsync();
+        return await GetAll().Where(e => e.UserId == userId).ToListAsync();
     }
 
     public async Task<Election> GetElectionByIdAsync(Guid electionId)

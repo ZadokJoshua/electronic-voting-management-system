@@ -12,7 +12,7 @@ public class Election : IEntity
     [Required]
     [ForeignKey(nameof(User))]
     public string UserId { get; set; }
-    public User User { get; set; }
+    public AppUser User { get; set; }
 
     [Required]
     [StringLength(100)]
@@ -36,4 +36,5 @@ public class Election : IEntity
 
     public ICollection<Party>? Parties { get; set; }
     public ICollection<Position>? Positions { get; set; }
+    public ICollection<Result>? Results { get; set; }
 }
