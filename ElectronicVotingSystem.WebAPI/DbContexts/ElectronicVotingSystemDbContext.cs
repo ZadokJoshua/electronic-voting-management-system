@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicVotingSystem.WebAPI.DbContexts;
 
-public class ElectronicVotingSystemDbContext(DbContextOptions<ElectronicVotingSystemDbContext> options ): IdentityDbContext<AppUser>(options)
+public class ElectronicVotingSystemDbContext(DbContextOptions<ElectronicVotingSystemDbContext> options): IdentityDbContext<AppUser>(options)
 {
     public DbSet<Ballot> Ballots { get; set; }
     public DbSet<Candidate> Candidates { get; set; }

@@ -21,7 +21,6 @@ namespace ElectronicVotingSystem.WebAPI.Models
         public string? ImageUrl { get; set; }
         public string? ElectionAccessKey { get; set; }
         public bool IsVotingOn { get; set; }
-        public bool HasVotingEnded { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

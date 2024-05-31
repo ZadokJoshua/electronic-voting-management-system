@@ -3,26 +3,32 @@ using ElectronicVotingSystem.WebAPI.Enums;
 using ElectronicVotingSystem.WebAPI.Models;
 using ElectronicVotingSystem.WebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace ElectronicVotingSystem.WebAPI.Controllers;
 
+/// <summary>
+/// Controller for managing user account operations such as registration and login.
+/// </summary>
 [AllowAnonymous]
 [Route("api/account")]
 [ApiController]
-public class AccountController(UserManager<AppUser> userManager, IAuthService authService) : ControllerBase
+public class AccountController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAuthService authService) : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager = userManager;
+    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
     private readonly IAuthService _authService = authService;
 
+    /// <summary>
+    /// Registers a new user with the provided details.
+    /// </summary>
+    /// <param name="userDto">The details of the user to be registered.</param>
+    /// <returns>A JWT Token</returns>
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] AddOrUpdateAppUserDto userDto)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Register([FromBody] UpsertAppUserDto userDto)
     {
         if (ModelState.IsValid)
         {
@@ -33,6 +39,8 @@ public class AccountController(UserManager<AppUser> userManager, IAuthService au
 
                 return BadRequest(ModelState);
             }
+
+            
 
             var user = new AppUser
             {
@@ -50,7 +58,7 @@ public class AccountController(UserManager<AppUser> userManager, IAuthService au
             if (result.Succeeded)
             {
                 var userRole = Roles.User.ToString();
-                await _userManager.AddToRoleAsync(user, userRole);
+                // await _userManager.AddToRoleAsync(user, userRole); // We need ensure that the role exist in the APPROLe db before we create it
 
                 var token = _authService.GenerateToken(userDto.UserName, user.Id, userRole);
                 return Ok(new { token });
@@ -62,7 +70,14 @@ public class AccountController(UserManager<AppUser> userManager, IAuthService au
         return BadRequest(ModelState);
     }
 
+    /// <summary>
+    /// Logs in a user with the provided credentials.
+    /// </summary>
+    /// <param name="loginDto">The login credentials of the user.</param>
+    /// <returns>A JWT Token</returns>
     [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
         if (ModelState.IsValid)

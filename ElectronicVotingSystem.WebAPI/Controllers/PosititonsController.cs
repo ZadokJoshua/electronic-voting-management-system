@@ -55,7 +55,8 @@ public class PosititonsController(IPositionRepository positionRepository, IElect
         return Created();
     }
 
-    [HttpDelete]
+    [HttpDelete("{positionId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeletePosition(Guid electionId, Guid positionId)
     {

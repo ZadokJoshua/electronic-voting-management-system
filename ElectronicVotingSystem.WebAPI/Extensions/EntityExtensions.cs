@@ -19,7 +19,7 @@ public static class EntityExtensions
         };
     }
 
-    public static Election AsEntity(this CreateElectionDto election, string userId)
+    public static Election AsEntity(this UpsertElectionDto election, string userId)
     {
         return new Election
         {

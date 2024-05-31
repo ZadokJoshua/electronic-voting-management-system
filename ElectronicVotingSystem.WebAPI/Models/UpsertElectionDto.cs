@@ -2,7 +2,7 @@
 
 namespace ElectronicVotingSystem.WebAPI.Models;
 
-public class CreateElectionDto
+public class UpsertElectionDto
 {
     [Required]
     [StringLength(100)]

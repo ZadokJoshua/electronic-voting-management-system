@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ElectronicVotingSystem.WebAPI.Models;
 
-public class AddOrUpdateAppUserDto
+public class UpsertAppUserDto
 {
     [Required(ErrorMessage = "User name is required")]
     public string UserName { get; set; } = string.Empty;
