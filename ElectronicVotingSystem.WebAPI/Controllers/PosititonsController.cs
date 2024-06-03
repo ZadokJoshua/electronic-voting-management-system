@@ -12,11 +12,12 @@ namespace ElectronicVotingSystem.WebAPI.Controllers;
 /// </summary>
 /// <param name="positionRepository"></param>
 /// <param name="electionRepository"></param>
+/// <param name="mapper"></param>
 [Authorize]
 [Route("api/elections/{electionId}/positions")]
 [ApiController]
 [Produces("application/json")]
-public class PosititonsController(IPositionRepository positionRepository, IElectionRepository electionRepository, IMapper mapper) : ControllerBase
+public class PosititonsController(IElectionRepository electionRepository, IPositionRepository positionRepository, IMapper mapper) : ControllerBase
 {
     private readonly IPositionRepository _positionRepository = positionRepository;
     private readonly IElectionRepository _electionRepository = electionRepository;
@@ -99,6 +100,8 @@ public class PosititonsController(IPositionRepository positionRepository, IElect
 
         var positionEntity = await _positionRepository.GetAPositionInAnElectionAsync(electionId, positionId);
 
+        if (positionEntity == null) return NotFound($"Position with ID {positionId} not found!");
+
         _mapper.Map(positionDto, positionEntity);
         await _electionRepository.SaveChangesAsync();
 
@@ -128,7 +131,7 @@ public class PosititonsController(IPositionRepository positionRepository, IElect
             return BadRequest($"Position with ID {positionId} not found in election {electionId}.");
         }
 
-        _positionRepository.DeletePostion(position);
+        _positionRepository.DeletePosition(position);
         await _positionRepository.SaveChangesAsync();
 
         return NoContent();

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ElectronicVotingSystem.WebAPI.Controllers;
 
 /// <summary>
-/// Controller for managing Elections.
+/// Controller for managing Elections
 /// </summary>
 /// <param name="electionRepository"></param>
 [Authorize]
@@ -38,7 +38,7 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <summary>
     /// Get an election by ID
     /// </summary>
-    /// <param name="electionId">The ID of the election to be retrieved.</param>
+    /// <param name="electionId">The ID of the election to be retrieved</param>
     /// <returns>An Election</returns>
     [HttpGet("{electionId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -58,7 +58,7 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <summary>
     /// Create a new Election
     /// </summary>
-    /// <param name="election">The election DTO containing the details of the election to be created.</param>
+    /// <param name="election">The election DTO containing the details of the election to be created</param>
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -89,8 +89,8 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <summary>
     /// Update an existing Election
     /// </summary>
-    /// <param name="electionId">The ID of the election to be updated.</param>
-    /// <param name="electionDto">The election DTO containing the updated details of the election.</param>
+    /// <param name="electionId">The ID of the election to be updated</param>
+    /// <param name="electionDto">The election DTO containing the updated details of the election</param>
     /// <returns></returns>
     [HttpPut("{electionId}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -116,7 +116,7 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <summary>
     /// Delete a specific election
     /// </summary>
-    /// <param name="electionId">The ID of the election to be deleted.</param>
+    /// <param name="electionId">The ID of the election to be deleted</param>
     /// <returns></returns>
     [HttpDelete("{electionId}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

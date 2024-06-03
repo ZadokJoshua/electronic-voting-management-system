@@ -28,5 +28,9 @@ public class ElectionRepository(ElectronicVotingSystemDbContext dbContext) : Gen
         election?.Positions.Add(position);
     }
 
-    
+    public async Task AddPartyToAnElection(Guid electionId, Party party)
+    {
+        var election = await GetElectionByIdAsync(electionId);
+        election?.Parties.Add(party);
+    }
 }

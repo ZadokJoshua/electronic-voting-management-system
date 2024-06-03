@@ -7,7 +7,7 @@ namespace ElectronicVotingSystem.WebAPI.Repositories;
 
 public class PositionRepository(ElectronicVotingSystemDbContext dbContext) : GenericRepository<Position>(dbContext), IPositionRepository
 {
-    public void DeletePostion(Position position)
+    public void DeletePosition(Position position)
     {
         Remove(position);
     }

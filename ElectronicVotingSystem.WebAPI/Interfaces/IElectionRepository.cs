@@ -8,4 +8,5 @@ public interface IElectionRepository : IGenericRepository<Election>
     Task<Election> GetElectionByIdAsync(Guid electionId);
     void DeleteElection(Election election);
     Task AddPositionToAnElection(Guid electionId, Position position);
+    Task AddPartyToAnElection(Guid electionId, Party party);
 }

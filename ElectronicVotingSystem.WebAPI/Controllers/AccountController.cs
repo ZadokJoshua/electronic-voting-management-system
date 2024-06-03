@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ElectronicVotingSystem.WebAPI.Controllers;
 
 /// <summary>
-/// Controller for managing user account operations such as registration and login.
+/// Controller for managing user account operations such as registration and login
 /// </summary>
 [AllowAnonymous]
 [Route("api/account")]
@@ -21,9 +21,9 @@ public class AccountController(UserManager<AppUser> userManager, RoleManager<Ide
     private readonly IAuthService _authService = authService;
 
     /// <summary>
-    /// Registers a new user with the provided details.
+    /// Registers a new user with the provided details
     /// </summary>
-    /// <param name="userDto">The details of the user to be registered.</param>
+    /// <param name="userDto">User DTO</param>
     /// <returns>A JWT Token</returns>
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -71,9 +71,9 @@ public class AccountController(UserManager<AppUser> userManager, RoleManager<Ide
     }
 
     /// <summary>
-    /// Logs in a user with the provided credentials.
+    /// Logs in a user with the provided credentials
     /// </summary>
-    /// <param name="loginDto">The login credentials of the user.</param>
+    /// <param name="loginDto">The login credentials of the user</param>
     /// <returns>A JWT Token</returns>
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
