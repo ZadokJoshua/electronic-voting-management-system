@@ -63,12 +63,13 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> CreateElection(UpsertElectionDto election)
     {
         string? userId = GetUserId();
         if (userId == null)
         {
-            return BadRequest("User not authenticated or found");
+            return NotFound("User not authenticated or found");
         }
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -78,7 +79,11 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
         _electionRepository.Add(electionEntity);
         await _electionRepository.SaveChangesAsync();
 
-        return Created();
+        return CreatedAtRoute(nameof(GetElectionById), new 
+        { 
+            electionId = electionEntity.Id 
+        }, 
+        electionEntity);
     }
 
     /// <summary>
@@ -89,15 +94,19 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <returns></returns>
     [HttpPut("{electionId}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> UpdateElection(Guid electionId, UpsertElectionDto electionDto)
     {
         var election = await _electionRepository.GetElectionByIdAsync(electionId);
 
-        if (election == null) return BadRequest($"Election with ID {electionId} not found!");
+        if (election == null) return NotFound($"Election with ID {electionId} not found!");
 
         election.Name = electionDto.Name;
         election.Description = electionDto.Description;
         election.ElectionAccessKey = electionDto.ElectionAccessKey;
+
+        if(!ModelState.IsValid) return BadRequest(ModelState);
 
         await _electionRepository.SaveChangesAsync();
 
@@ -111,11 +120,12 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <returns></returns>
     [HttpDelete("{electionId}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> UpdateElection(Guid electionId)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult> DeleteElection(Guid electionId)
     {
         var election = await _electionRepository.GetElectionByIdAsync(electionId);
 
-        if (election == null) return BadRequest($"Election with ID {electionId} not found!");
+        if (election == null) return NotFound($"Election with ID {electionId} not found!");
 
         _electionRepository.DeleteElection(election);
         await _electionRepository.SaveChangesAsync();

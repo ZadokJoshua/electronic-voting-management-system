@@ -9,7 +9,7 @@ public class Position : IEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    [Required]
+    //[Required]
     [ForeignKey(nameof(ElectionId))]
     public Guid ElectionId { get; set; }
     public Election Election { get; set; }
@@ -21,5 +21,5 @@ public class Position : IEntity
     [StringLength(300)]
     public string? Description { get; set; }
 
-    public ICollection<Candidate>? Candidates { get; set; }
+    public ICollection<Candidate> Candidates { get; set; } = [];
 }

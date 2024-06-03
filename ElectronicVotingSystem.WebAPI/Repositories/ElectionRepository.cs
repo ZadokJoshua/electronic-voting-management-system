@@ -21,4 +21,12 @@ public class ElectionRepository(ElectronicVotingSystemDbContext dbContext) : Gen
     {
         return await FindByCondition(e => e.Id == electionId).FirstOrDefaultAsync();
     }
+
+    public async Task AddPositionToAnElection(Guid electionId, Position position)
+    {
+        var election = await GetElectionByIdAsync(electionId);
+        election?.Positions.Add(position);
+    }
+
+    
 }

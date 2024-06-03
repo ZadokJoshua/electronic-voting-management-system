@@ -41,6 +41,7 @@ builder.Services.AddAuthentication(options =>
     {
         throw new ArgumentException("Jwt is not set in the configuration");
     }
+
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new()
@@ -98,7 +99,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

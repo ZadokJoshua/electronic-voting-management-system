@@ -33,4 +33,13 @@ public static class EntityExtensions
             IsElectionActive = election.IsVotingOn
         };
     }
+
+    public static Position AsEntity(this UpsertPositionDto positionDto)
+    {
+        return new Position
+        {
+            Title = positionDto.Title,
+            Description = positionDto.Description
+        };
+    }
 }

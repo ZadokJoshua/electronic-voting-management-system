@@ -29,5 +29,5 @@ public class Party : IEntity
     [Url]
     public string? IconUrl { get; set; }
 
-    public ICollection<Candidate>? Candidates { get; set; }
+    public ICollection<Candidate> Candidates { get; set; } = [];
 }

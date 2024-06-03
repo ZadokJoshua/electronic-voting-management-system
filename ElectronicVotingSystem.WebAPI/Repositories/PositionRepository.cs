@@ -9,13 +9,16 @@ public class PositionRepository(ElectronicVotingSystemDbContext dbContext) : Gen
 {
     public void DeletePostion(Position position)
     {
-        _dbContext.Positions.Remove(position);
+        Remove(position);
     }
 
-    public async Task<IEnumerable<Position>> GetAllPositionsInAnElectionAsync(Guid electionId) => await _dbContext.Positions.Where(e => e.Id == electionId).ToListAsync();
+    public async Task<IEnumerable<Position>> GetAllPositionsInAnElectionAsync(Guid electionId)
+    {
+        return await GetAll().Where(p => p.ElectionId == electionId).ToListAsync();
+    }
 
     public async Task<Position> GetAPositionInAnElectionAsync(Guid electionId, Guid positionId)
     {
-        return await _dbContext.Positions.Where(e => e.Id == positionId && e.ElectionId == electionId).FirstAsync();
+        return await GetAll().Where(p => p.Id == positionId && p.ElectionId == electionId).FirstAsync();
     }
 }
