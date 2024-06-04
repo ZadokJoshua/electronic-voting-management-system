@@ -2,10 +2,8 @@
 using ElectronicVotingSystem.WebAPI.Entitites;
 using ElectronicVotingSystem.WebAPI.Interfaces;
 using ElectronicVotingSystem.WebAPI.Models;
-using ElectronicVotingSystem.WebAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicVotingSystem.WebAPI.Controllers
 {
@@ -60,6 +58,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
         /// <summary>
         /// Create a new party
         /// </summary>
+        /// <param name="electionId"></param>
         /// <param name="partyDto">Party DTO</param>
         /// <returns></returns>
         [HttpPost]
@@ -103,14 +102,6 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
 
             _mapper.Map(partyDto, partyEntity);
             await _partyRepository.SaveChangesAsync();
-
-            //try
-            //{
-            //    await _partyRepository.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //}
 
             return NoContent();
         }
