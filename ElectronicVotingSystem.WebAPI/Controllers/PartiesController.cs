@@ -36,7 +36,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
         /// <summary>
         /// Get details of a specific party by ID
         /// </summary>
-        /// <param name="electionId">Party ID</param>
+        /// <param name="electionId">Election ID</param>
         /// <param name="partyId">Party ID</param>
         /// <returns></returns>
         [HttpGet("{partyId}")]
@@ -58,7 +58,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
         /// <summary>
         /// Create a new party
         /// </summary>
-        /// <param name="electionId"></param>
+        /// <param name="electionId">Election ID</param>
         /// <param name="partyDto">Party DTO</param>
         /// <returns></returns>
         [HttpPost]
@@ -84,7 +84,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
         /// <summary>
         /// Update a party
         /// </summary>
-        /// <param name="partyId">Party ID</param>
+        /// <param name="partyId">Election ID</param>
         /// <param name="electionId">Party DTO</param>
         /// <param name="partyDto">Party DTO</param>
         /// <returns></returns>

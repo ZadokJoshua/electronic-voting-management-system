@@ -19,6 +19,6 @@ public class PartyRepository(ElectronicVotingSystemDbContext dbContext) : Generi
 
     public async Task<Party> GetPartyInElectionAsync(Guid electionId, Guid partyId)
     {
-        return await GetAll().Where(p => p.Id == partyId && p.ElectionId == electionId).FirstAsync();
+        return await GetAll().Where(p => p.Id == partyId && p.ElectionId == electionId).FirstOrDefaultAsync();
     }
 }

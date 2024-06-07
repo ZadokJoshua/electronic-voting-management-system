@@ -7,6 +7,13 @@ namespace ElectronicVotingSystem.WebAPI.Repositories;
 
 public class PositionRepository(ElectronicVotingSystemDbContext dbContext) : GenericRepository<Position>(dbContext), IPositionRepository
 {
+    public async Task AddCandidateToPosition(Guid electionId, Guid positionId, Candidate candidate)
+    {
+        var position = await GetAPositionInAnElectionAsync(electionId, positionId);
+        position?.Candidates.Add(candidate);
+    }
+    
+
     public void DeletePosition(Position position)
     {
         Remove(position);
@@ -19,6 +26,6 @@ public class PositionRepository(ElectronicVotingSystemDbContext dbContext) : Gen
 
     public async Task<Position> GetAPositionInAnElectionAsync(Guid electionId, Guid positionId)
     {
-        return await GetAll().Where(p => p.Id == positionId && p.ElectionId == electionId).FirstAsync();
+        return await GetAll().Where(p => p.Id == positionId && p.ElectionId == electionId).FirstOrDefaultAsync();
     }
 }

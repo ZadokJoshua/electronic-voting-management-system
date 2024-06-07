@@ -1,5 +1,5 @@
-﻿using ElectronicVotingSystem.WebAPI.Entitites;
-using ElectronicVotingSystem.WebAPI.Extensions;
+﻿using AutoMapper;
+using ElectronicVotingSystem.WebAPI.Entitites;
 using ElectronicVotingSystem.WebAPI.Interfaces;
 using ElectronicVotingSystem.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -11,13 +11,15 @@ namespace ElectronicVotingSystem.WebAPI.Controllers;
 /// Controller for managing Elections
 /// </summary>
 /// <param name="electionRepository"></param>
+/// <param name="mapper"></param>
 [Authorize]
 [Route("api/elections")]
 [ApiController]
 [Produces("application/json")]
-public class ElectionsController(IElectionRepository electionRepository) : BaseController
+public class ElectionsController(IElectionRepository electionRepository, IMapper mapper) : BaseController
 {
     private readonly IElectionRepository _electionRepository = electionRepository;
+    private readonly IMapper _mapper = mapper;
 
     /// <summary>
     /// Get all elections
@@ -38,9 +40,9 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <summary>
     /// Get an election by ID
     /// </summary>
-    /// <param name="electionId">The ID of the election to be retrieved</param>
-    /// <returns>An Election</returns>
-    [HttpGet("{electionId}")]
+    /// <param name="electionId">Election ID</param>
+    /// <returns></returns>
+    [HttpGet("{electionId}", Name = nameof(GetElectionById))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Election>> GetElectionById(Guid electionId)
@@ -58,13 +60,13 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <summary>
     /// Create a new Election
     /// </summary>
-    /// <param name="election">The election DTO containing the details of the election to be created</param>
+    /// <param name="electionDto">Election DTO</param>
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> CreateElection(UpsertElectionDto election)
+    public async Task<ActionResult> CreateElection(UpsertElectionDto electionDto)
     {
         string? userId = GetUserId();
         if (userId == null)
@@ -74,13 +76,14 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var electionEntity = election.AsEntity(userId);
+        var electionEntity = _mapper.Map<Election>(electionDto);
+        electionEntity.UserId = userId;
 
         _electionRepository.Add(electionEntity);
         await _electionRepository.SaveChangesAsync();
 
         return CreatedAtRoute(nameof(GetElectionById), new 
-        { 
+        {
             electionId = electionEntity.Id 
         }, 
         electionEntity);
@@ -89,8 +92,8 @@ public class ElectionsController(IElectionRepository electionRepository) : BaseC
     /// <summary>
     /// Update an existing Election
     /// </summary>
-    /// <param name="electionId">The ID of the election to be updated</param>
-    /// <param name="electionDto">The election DTO containing the updated details of the election</param>
+    /// <param name="electionId">Election ID</param>
+    /// <param name="electionDto">Election DTO</param>
     /// <returns></returns>
     [HttpPut("{electionId}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ElectronicVotingSystem.WebAPI.Controllers;
 
 /// <summary>
-/// Controller for mannaging positions in an Election
+/// Controller for managing positions in an Election
 /// </summary>
 /// <param name="positionRepository"></param>
 /// <param name="electionRepository"></param>
@@ -17,7 +17,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers;
 [Route("api/elections/{electionId}/positions")]
 [ApiController]
 [Produces("application/json")]
-public class PosititonsController(IElectionRepository electionRepository, IPositionRepository positionRepository, IMapper mapper) : ControllerBase
+public class PositionsController(IElectionRepository electionRepository, IPositionRepository positionRepository, IMapper mapper) : ControllerBase
 {
     private readonly IPositionRepository _positionRepository = positionRepository;
     private readonly IElectionRepository _electionRepository = electionRepository;
@@ -45,7 +45,7 @@ public class PosititonsController(IElectionRepository electionRepository, IPosit
     /// <param name="electionId">Election ID</param>
     /// <param name="positionId">Position ID</param>
     /// <returns></returns>
-    [HttpGet("{positionId}")]
+    [HttpGet("{positionId}", Name = nameof(GetPositionById))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Position>> GetPositionById(Guid electionId, Guid positionId)
@@ -54,7 +54,7 @@ public class PosititonsController(IElectionRepository electionRepository, IPosit
             return NotFound($"Election with ID {electionId} not found!");
 
         var postition = await _positionRepository.GetAPositionInAnElectionAsync(electionId, positionId);
-        if (postition == null) return NotFound($"Position with ID {electionId} not found!");
+        if (postition == null) return NotFound($"Position with ID {positionId} not found!");
         return Ok(postition);
     }
 
@@ -69,6 +69,9 @@ public class PosititonsController(IElectionRepository electionRepository, IPosit
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreatePosition(Guid electionId, UpsertPositionDto positionDto)
     {
+        if (!await _electionRepository.ExistsAsync(electionId))
+            return NotFound($"Election with ID {electionId} not found!");
+
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         var positionEntity = _mapper.Map<Position>(positionDto);
@@ -78,7 +81,7 @@ public class PosititonsController(IElectionRepository electionRepository, IPosit
 
         return CreatedAtRoute(nameof(GetPositionById), new
         {
-            electionId = positionEntity.ElectionId,
+            electionId,
             positionId = positionEntity.Id
         },
         positionEntity);
@@ -94,7 +97,7 @@ public class PosititonsController(IElectionRepository electionRepository, IPosit
     [HttpPut("{positionId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> UpdatePosition(Guid electionId, Guid positionId,UpsertPositionDto positionDto)
+    public async Task<ActionResult> UpdatePosition(Guid electionId, Guid positionId, UpsertPositionDto positionDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
