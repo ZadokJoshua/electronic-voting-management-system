@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ElectronicVotingSystem.WebAPI.Entitites;
+using ElectronicVotingSystem.WebAPI.Models;
 
 namespace ElectronicVotingSystem.WebAPI.Profiles;
 
@@ -6,7 +8,10 @@ public class BallotProfile : Profile
 {
     public BallotProfile()
     {
-        // For POST request
-        CreateMap<Models.UpsertBallotDto, Entitites.Ballot>();
+        // Map Nested Collections
+        CreateMap<UpsertBallotDto, Ballot>()
+            .ForMember(
+            dest => dest.PositionCandidates,
+            opt => opt.MapFrom(src => src.UpsertPositionCandidates));
     }
 }
