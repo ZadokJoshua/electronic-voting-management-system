@@ -1,24 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ElectronicVotingSystem.WebAPI.Entitites
+namespace ElectronicVotingSystem.WebAPI.Entitites;
+
+public class Ballot : IEntity
 {
-    public class Ballot : IEntity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public Guid Id { get; set; }
+    
+    [Required]
+    [ForeignKey(nameof(ElectionId))]
+    public Guid? ElectionId { get; set; }
+    public Election? Election { get; set; }
 
-        [Required]
-        [ForeignKey(nameof(ElectionId))]
-        public Guid? ElectionId { get; set; }
-        public Election? Election { get; set; }
+    [Required]
+    [ForeignKey(nameof(VoterId))]
+    public string? VoterId { get; set; }
 
-        [Required]
-        [ForeignKey(nameof(VoterId))]
-        public string? VoterId { get; set; }
-        public AppUser? User { get; set; }
+    public AppUser? User { get; set; }
 
-        public DateTime SubmissionDate { get; set; } = DateTime.UtcNow;
-    }
+    public ICollection<PositionCandidate> PositionCandidates { get; set; } = [];
+
+    public DateTime SubmissionDate { get; set; } = DateTime.UtcNow;
 }

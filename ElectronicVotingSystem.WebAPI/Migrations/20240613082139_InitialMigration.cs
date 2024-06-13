@@ -290,56 +290,34 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Results",
+                name: "PositionCandidates",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ElectionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PositionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CandidateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VoteCount = table.Column<int>(type: "int", nullable: false)
+                    BallotId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Results", x => x.Id);
+                    table.PrimaryKey("PK_PositionCandidates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Results_Candidates_CandidateId",
-                        column: x => x.CandidateId,
-                        principalTable: "Candidates",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Results_Elections_ElectionId",
-                        column: x => x.ElectionId,
-                        principalTable: "Elections",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Results_Positions_PositionId",
-                        column: x => x.PositionId,
-                        principalTable: "Positions",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Votes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CandidateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BallotId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Votes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Votes_Ballots_BallotId",
+                        name: "FK_PositionCandidates_Ballots_BallotId",
                         column: x => x.BallotId,
                         principalTable: "Ballots",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Votes_Candidates_CandidateId",
+                        name: "FK_PositionCandidates_Candidates_CandidateId",
                         column: x => x.CandidateId,
                         principalTable: "Candidates",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PositionCandidates_Positions_PositionId",
+                        column: x => x.PositionId,
+                        principalTable: "Positions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -417,34 +395,24 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
                 column: "ElectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Positions_ElectionId",
-                table: "Positions",
-                column: "ElectionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Results_CandidateId",
-                table: "Results",
-                column: "CandidateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Results_ElectionId",
-                table: "Results",
-                column: "ElectionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Results_PositionId",
-                table: "Results",
-                column: "PositionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Votes_BallotId",
-                table: "Votes",
+                name: "IX_PositionCandidates_BallotId",
+                table: "PositionCandidates",
                 column: "BallotId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Votes_CandidateId",
-                table: "Votes",
+                name: "IX_PositionCandidates_CandidateId",
+                table: "PositionCandidates",
                 column: "CandidateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PositionCandidates_PositionId",
+                table: "PositionCandidates",
+                column: "PositionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Positions_ElectionId",
+                table: "Positions",
+                column: "ElectionId");
         }
 
         /// <inheritdoc />
@@ -466,10 +434,7 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Results");
-
-            migrationBuilder.DropTable(
-                name: "Votes");
+                name: "PositionCandidates");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

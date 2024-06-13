@@ -9,4 +9,5 @@ public interface IElectionRepository : IGenericRepository<Election>
     void DeleteElection(Election election);
     Task AddPositionToAnElection(Guid electionId, Position position);
     Task AddPartyToAnElection(Guid electionId, Party party);
+    Task CastBallotInAnElection(Guid electionId, Ballot ballot);
 }

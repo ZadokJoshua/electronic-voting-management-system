@@ -58,7 +58,7 @@ public class ElectionsController(IElectionRepository electionRepository, IMapper
     }
 
     /// <summary>
-    /// Create a new Election
+    /// Create a new election
     /// </summary>
     /// <param name="electionDto">Election DTO</param>
     /// <returns></returns>
@@ -90,7 +90,7 @@ public class ElectionsController(IElectionRepository electionRepository, IMapper
     }
 
     /// <summary>
-    /// Update an existing Election
+    /// Update an existing election
     /// </summary>
     /// <param name="electionId">Election ID</param>
     /// <param name="electionDto">Election DTO</param>

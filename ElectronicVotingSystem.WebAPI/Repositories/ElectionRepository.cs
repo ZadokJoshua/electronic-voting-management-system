@@ -9,7 +9,7 @@ public class ElectionRepository(ElectronicVotingSystemDbContext dbContext) : Gen
 {
     public void DeleteElection(Election election)
     {
-        _dbContext.Elections.Remove(election);
+        Remove(election);
     }
 
     public async Task<IEnumerable<Election>> GetAllElectionsAsync(string userId)
@@ -22,15 +22,24 @@ public class ElectionRepository(ElectronicVotingSystemDbContext dbContext) : Gen
         return await FindByCondition(e => e.Id == electionId).FirstOrDefaultAsync();
     }
 
+    // Position
     public async Task AddPositionToAnElection(Guid electionId, Position position)
     {
         var election = await GetElectionByIdAsync(electionId);
         election?.Positions.Add(position);
     }
 
+    // Party
     public async Task AddPartyToAnElection(Guid electionId, Party party)
     {
         var election = await GetElectionByIdAsync(electionId);
         election?.Parties.Add(party);
+    }
+
+    // Ballot
+    public async Task CastBallotInAnElection(Guid electionId, Ballot ballot)
+    {
+        var election = await GetElectionByIdAsync(electionId);
+        election?.Ballots.Add(ballot);
     }
 }

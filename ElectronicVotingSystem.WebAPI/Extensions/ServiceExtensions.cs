@@ -11,6 +11,6 @@ public static class ServiceExtensions
         services.AddScoped<IElectionRepository, ElectionRepository>();
         services.AddScoped<IPartyRepository, PartyRepository>();
         services.AddScoped<IPositionRepository, PositionRepository>();
-        services.AddScoped<IVoteRepository, VoteRepository>();
+        services.AddScoped<IBallotRepository, BallotRepository>();
     }
 }

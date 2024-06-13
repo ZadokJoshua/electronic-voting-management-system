@@ -36,5 +36,5 @@ public class Election : IEntity
 
     public ICollection<Party> Parties { get; set; } = [];
     public ICollection<Position> Positions { get; set; } = [];
-    public ICollection<Result> Results { get; set; } = [];
+    public ICollection<Ballot> Ballots { get; set; } = [];
 }

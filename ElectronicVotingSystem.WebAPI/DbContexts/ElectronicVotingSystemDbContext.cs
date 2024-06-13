@@ -11,6 +11,5 @@ public class ElectronicVotingSystemDbContext(DbContextOptions<ElectronicVotingSy
     public DbSet<Election> Elections {  get; set; }
     public DbSet<Party> Parties { get; set; }
     public DbSet<Position> Positions { get; set; }
-    public DbSet<Result> Results { get; set; }
-    public DbSet<Vote> Votes { get; set; }
+    public DbSet<PositionCandidate> PositionCandidates { get; set; }
 }

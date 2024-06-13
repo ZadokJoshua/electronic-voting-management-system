@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectronicVotingSystem.WebAPI.Migrations
 {
     [DbContext(typeof(ElectronicVotingSystemDbContext))]
-    [Migration("20240528140806_InitialMigration")]
+    [Migration("20240613082139_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -283,45 +283,21 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
                     b.ToTable("Positions");
                 });
 
-            modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.Result", b =>
+            modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.PositionCandidate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CandidateId")
+                    b.Property<Guid?>("BallotId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ElectionId")
+                    b.Property<Guid?>("CandidateId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PositionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("VoteCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CandidateId");
-
-                    b.HasIndex("ElectionId");
-
-                    b.HasIndex("PositionId");
-
-                    b.ToTable("Results");
-                });
-
-            modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.Vote", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BallotId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CandidateId")
+                    b.Property<Guid?>("PositionId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -330,7 +306,9 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
 
                     b.HasIndex("CandidateId");
 
-                    b.ToTable("Votes");
+                    b.HasIndex("PositionId");
+
+                    b.ToTable("PositionCandidates");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -469,7 +447,7 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
             modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.Ballot", b =>
                 {
                     b.HasOne("ElectronicVotingSystem.WebAPI.Entitites.Election", "Election")
-                        .WithMany()
+                        .WithMany("Ballots")
                         .HasForeignKey("ElectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -539,50 +517,27 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
                     b.Navigation("Election");
                 });
 
-            modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.Result", b =>
+            modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.PositionCandidate", b =>
                 {
+                    b.HasOne("ElectronicVotingSystem.WebAPI.Entitites.Ballot", null)
+                        .WithMany("PositionCandidates")
+                        .HasForeignKey("BallotId");
+
                     b.HasOne("ElectronicVotingSystem.WebAPI.Entitites.Candidate", "Candidate")
                         .WithMany()
                         .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("ElectronicVotingSystem.WebAPI.Entitites.Election", "Election")
-                        .WithMany("Results")
-                        .HasForeignKey("ElectionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ElectronicVotingSystem.WebAPI.Entitites.Position", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Candidate");
-
-                    b.Navigation("Election");
 
                     b.Navigation("Position");
-                });
-
-            modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.Vote", b =>
-                {
-                    b.HasOne("ElectronicVotingSystem.WebAPI.Entitites.Ballot", "Ballot")
-                        .WithMany()
-                        .HasForeignKey("BallotId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("ElectronicVotingSystem.WebAPI.Entitites.Candidate", "Candidate")
-                        .WithMany()
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Ballot");
-
-                    b.Navigation("Candidate");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -643,13 +598,18 @@ namespace ElectronicVotingSystem.WebAPI.Migrations
                     b.Navigation("Candidates");
                 });
 
+            modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.Ballot", b =>
+                {
+                    b.Navigation("PositionCandidates");
+                });
+
             modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.Election", b =>
                 {
+                    b.Navigation("Ballots");
+
                     b.Navigation("Parties");
 
                     b.Navigation("Positions");
-
-                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("ElectronicVotingSystem.WebAPI.Entitites.Party", b =>

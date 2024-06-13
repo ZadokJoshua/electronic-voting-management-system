@@ -3,21 +3,21 @@ using ElectronicVotingSystem.WebAPI.Entitites;
 using ElectronicVotingSystem.WebAPI.Interfaces;
 using ElectronicVotingSystem.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectronicVotingSystem.WebAPI.Controllers;
 
 /// <summary>
-/// Controller for managing Candidates
+/// Controller for managing candidates
 /// </summary>
 /// <param name="electionRepository"></param>
 /// <param name="candidateRepository"></param>
 /// <param name="positionRepository"></param>
 /// <param name="mapper"></param>
 [Authorize]
-[Route("api/election/{electionId}/positions/{postitionId}/candidates")]
+[Route("api/election/{electionId}/positions/{positionId}/candidates")]
 [ApiController]
+[Produces("application/json")]
 public class CandidatesController(IElectionRepository electionRepository, ICandidateRepository candidateRepository, IPositionRepository positionRepository, IMapper mapper) : ControllerBase
 {
     private readonly IElectionRepository _electionRepository = electionRepository;
@@ -29,17 +29,17 @@ public class CandidatesController(IElectionRepository electionRepository, ICandi
     /// Get all candidates contesting for a position
     /// </summary>
     /// <param name="electionId"></param>
-    /// <param name="postitionId"></param>
+    /// <param name="positionId"></param>
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<Candidate>>> GetAllCandidatesInAnElection(Guid electionId, Guid postitionId)
+    public async Task<ActionResult<IEnumerable<Candidate>>> GetAllCandidatesInAnElection(Guid electionId, Guid positionId)
     {
         if (!await _electionRepository.ExistsAsync(electionId)) return NotFound($"Election with ID {electionId} not found!");
-        if (!await _positionRepository.ExistsAsync(electionId)) return NotFound($"Position with ID {postitionId} not found!");
+        if (!await _positionRepository.ExistsAsync(positionId)) return NotFound($"Position with ID {positionId} not found!");
 
-        var candidates = _candidateRepository.GetAllCandidatesInElectionAsync(postitionId);
+        var candidates = _candidateRepository.GetAllCandidatesInElectionAsync(positionId);
 
         return Ok(candidates);
     }
@@ -137,7 +137,6 @@ public class CandidatesController(IElectionRepository electionRepository, ICandi
         if (!await _positionRepository.ExistsAsync(positionId)) return NotFound($"Position with ID {positionId} not found!");
 
         var candidateEntity = await _candidateRepository.GetACandidateInPositionAsync(positionId, candidateId);
-
         if (candidateEntity == null) return BadRequest($"Candidate with ID {candidateId} not found in Position {positionId}.");
 
         _candidateRepository.DeleteCandidate(candidateEntity);

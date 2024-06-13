@@ -24,7 +24,7 @@ public class PositionsController(IElectionRepository electionRepository, IPositi
     private readonly IMapper _mapper = mapper;
 
     /// <summary>
-    /// Get All positions in an Election
+    /// Get all positions in an election
     /// </summary>
     /// <param name="electionId">Election ID</param>
     /// <returns></returns>
@@ -59,7 +59,7 @@ public class PositionsController(IElectionRepository electionRepository, IPositi
     }
 
     /// <summary>
-    /// Create a new Position in an Election
+    /// Create a new position in an election
     /// </summary>
     /// <param name="electionId">Election ID</param>
     /// <param name="positionDto">Position DTO</param>
@@ -69,7 +69,7 @@ public class PositionsController(IElectionRepository electionRepository, IPositi
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreatePosition(Guid electionId, UpsertPositionDto positionDto)
     {
-        if (!await _electionRepository.ExistsAsync(electionId))
+            if (!await _electionRepository.ExistsAsync(electionId))
             return NotFound($"Election with ID {electionId} not found!");
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -88,7 +88,7 @@ public class PositionsController(IElectionRepository electionRepository, IPositi
     }
 
     /// <summary>
-    /// Update a Position in an Election
+    /// Update a position in an election
     /// </summary>
     /// <param name="electionId">Election ID</param>
     /// <param name="positionId">Position ID</param>
@@ -112,7 +112,7 @@ public class PositionsController(IElectionRepository electionRepository, IPositi
     }
 
     /// <summary>
-    /// Delete a specific Position in an Election
+    /// Delete a specific position in an election
     /// </summary>
     /// <param name="electionId">Election ID</param>
     /// <param name="positionId">Position ID</param>
