@@ -1,4 +1,4 @@
-﻿using ElectronicVotingSystem.WebAPI.Entitites;
+﻿using ElectronicVotingSystem.WebAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 

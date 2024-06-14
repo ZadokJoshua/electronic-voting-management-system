@@ -1,4 +1,4 @@
-﻿namespace ElectronicVotingSystem.WebAPI.Entitites;
+﻿namespace ElectronicVotingSystem.WebAPI.Entities;
 
 public interface IEntity
 {

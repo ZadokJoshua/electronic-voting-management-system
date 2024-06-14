@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ElectronicVotingSystem.WebAPI.Entitites;
+namespace ElectronicVotingSystem.WebAPI.Entities;
 
 public class Ballot : IEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
-    
+
     [Required]
     [ForeignKey(nameof(ElectionId))]
     public Guid? ElectionId { get; set; }

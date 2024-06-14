@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ElectronicVotingSystem.WebAPI.Entitites;
+using ElectronicVotingSystem.WebAPI.Entities;
 using ElectronicVotingSystem.WebAPI.Interfaces;
 using ElectronicVotingSystem.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +16,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers;
 /// <param name="ballotRepository"></param>
 /// <param name="mapper"></param>
 [Authorize]
-[Route("api/election/{electionid}/ballots")]
+[Route("api/election/{electionId}/ballots")]
 [ApiController]
 [Produces("application/json")]
 public class BallotsController(IElectionRepository electionRepository, IBallotRepository ballotRepository, IMapper mapper) : BaseController
@@ -38,7 +38,9 @@ public class BallotsController(IElectionRepository electionRepository, IBallotRe
         if (!await _electionRepository.ExistsAsync(electionId))
             return NotFound($"Election with ID {electionId} not found!");
 
-        return Ok(_ballotRepository.GetBallotById(electionId, ballotId));
+        var ballotEntity = await _ballotRepository.GetBallotById(ballotId);
+
+        return Ok(ballotEntity);
     }
 
     /// <summary>
@@ -64,10 +66,6 @@ public class BallotsController(IElectionRepository electionRepository, IBallotRe
         // Other validations from values in the ballot dto
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
-
-        //List<PositionCandidate> positionsCandidates = [];
-        //positionsCandidates.AddRange(ballotDto.UpsertPositionCandidates.Select(votes => _mapper.Map<PositionCandidate>(votes)));
-
         
         var ballotEntity = _mapper.Map<Ballot>(ballotDto);
         ballotEntity.VoterId = userId;
@@ -75,8 +73,7 @@ public class BallotsController(IElectionRepository electionRepository, IBallotRe
 
         await _electionRepository.CastBallotInAnElection(electionId, ballotEntity);
         await _electionRepository.SaveChangesAsync();
-
-        // To Do
+            
         return CreatedAtAction(nameof(GetBallotById), new
         {
             electionId,

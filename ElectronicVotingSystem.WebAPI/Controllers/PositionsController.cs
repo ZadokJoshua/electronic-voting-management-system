@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ElectronicVotingSystem.WebAPI.Entitites;
+using ElectronicVotingSystem.WebAPI.Entities;
 using ElectronicVotingSystem.WebAPI.Interfaces;
 using ElectronicVotingSystem.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;

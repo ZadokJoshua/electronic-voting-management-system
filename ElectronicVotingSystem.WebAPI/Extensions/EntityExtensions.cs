@@ -1,4 +1,4 @@
-﻿using ElectronicVotingSystem.WebAPI.Entitites;
+﻿using ElectronicVotingSystem.WebAPI.Entities;
 using ElectronicVotingSystem.WebAPI.Models;
 
 namespace ElectronicVotingSystem.WebAPI.Extensions;

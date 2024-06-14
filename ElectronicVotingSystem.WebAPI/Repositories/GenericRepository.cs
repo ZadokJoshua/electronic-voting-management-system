@@ -1,5 +1,5 @@
 ﻿using ElectronicVotingSystem.WebAPI.DbContexts;
-using ElectronicVotingSystem.WebAPI.Entitites;
+using ElectronicVotingSystem.WebAPI.Entities;
 using ElectronicVotingSystem.WebAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

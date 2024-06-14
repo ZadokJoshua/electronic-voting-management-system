@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElectronicVotingSystem.WebAPI.Entitites;
+namespace ElectronicVotingSystem.WebAPI.Entities;
 
 public class PositionCandidate
 {

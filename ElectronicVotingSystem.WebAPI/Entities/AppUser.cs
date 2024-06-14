@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ElectronicVotingSystem.WebAPI.Entitites;
+namespace ElectronicVotingSystem.WebAPI.Entities;
 
 public class AppUser : IdentityUser
 {

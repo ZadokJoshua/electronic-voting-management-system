@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ElectronicVotingSystem.WebAPI.Entitites;
+using ElectronicVotingSystem.WebAPI.Entities;
 using ElectronicVotingSystem.WebAPI.Interfaces;
 using ElectronicVotingSystem.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +39,7 @@ public class CandidatesController(IElectionRepository electionRepository, ICandi
         if (!await _electionRepository.ExistsAsync(electionId)) return NotFound($"Election with ID {electionId} not found!");
         if (!await _positionRepository.ExistsAsync(positionId)) return NotFound($"Position with ID {positionId} not found!");
 
-        var candidates = _candidateRepository.GetAllCandidatesInElectionAsync(positionId);
+        var candidates = await _candidateRepository.GetAllCandidatesInElectionAsync(positionId);
 
         return Ok(candidates);
     }
@@ -51,7 +51,7 @@ public class CandidatesController(IElectionRepository electionRepository, ICandi
     /// <param name="positionId">Position ID</param>
     /// <param name="candidateId">Candidate ID</param>
     /// <returns></returns>
-    [HttpGet("{candidateId}")]
+    [HttpGet("{candidateId}", Name = nameof(GetCandidateById))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Candidate>> GetCandidateById(Guid electionId, Guid positionId, Guid candidateId)

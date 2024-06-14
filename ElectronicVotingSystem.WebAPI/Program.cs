@@ -1,5 +1,5 @@
 using ElectronicVotingSystem.WebAPI.DbContexts;
-using ElectronicVotingSystem.WebAPI.Entitites;
+using ElectronicVotingSystem.WebAPI.Entities;
 using ElectronicVotingSystem.WebAPI.Extensions;
 using ElectronicVotingSystem.WebAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
