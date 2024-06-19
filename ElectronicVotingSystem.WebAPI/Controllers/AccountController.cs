@@ -17,7 +17,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers;
 public class AccountController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAuthService authService) : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager = userManager;
-    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
+    // private readonly RoleManager<IdentityRole> _roleManager = roleManager;
     private readonly IAuthService _authService = authService;
 
     /// <summary>
@@ -58,7 +58,7 @@ public class AccountController(UserManager<AppUser> userManager, RoleManager<Ide
             if (result.Succeeded)
             {
                 var userRole = Roles.User.ToString();
-                // await _userManager.AddToRoleAsync(user, userRole); // We need ensure that the role exist in the APPROLe db before we create it
+                // await _userManager.AddToRoleAsync(user, userRole); // We need ensure that the role exist in the APPROLE table before we create it
 
                 var token = _authService.GenerateToken(userDto.UserName, user.Id, userRole);
                 return Ok(new { token });

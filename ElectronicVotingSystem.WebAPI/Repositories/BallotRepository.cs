@@ -8,15 +8,14 @@ namespace ElectronicVotingSystem.WebAPI.Repositories;
 
 public class BallotRepository(ElectronicVotingSystemDbContext dbContext) : GenericRepository<Ballot>(dbContext), IBallotRepository
 {
-    // GetAllCastedBallotsInElection
-    public async Task<Ballot> GetBallotById(Guid ballotId)
+    public async Task<Ballot> GetBallotByIdAsync(Guid ballotId)
     {
         return await GetAll().Where(b => b.Id == ballotId).FirstOrDefaultAsync();
     }
 
-    public Task<IEnumerable<object>> GetResultsByElectionAsync(Guid electionId)
+    public async Task<IEnumerable<Ballot>> GetResultsByElectionAsync(Guid electionId)
     {
-        throw new NotImplementedException();
+        return await GetAll().Where(b => b.ElectionId == electionId).Include(b => b.PositionCandidates).ToListAsync();
     }
 
     public Task<IEnumerable<object>> GetResultsByPositionAsync(Guid positionId)

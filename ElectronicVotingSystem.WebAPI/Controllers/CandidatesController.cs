@@ -34,12 +34,12 @@ public class CandidatesController(IElectionRepository electionRepository, ICandi
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<Candidate>>> GetAllCandidatesInAnElection(Guid electionId, Guid positionId)
+    public async Task<ActionResult<IEnumerable<Candidate>>> GetElectionCandidates(Guid electionId, Guid positionId)
     {
         if (!await _electionRepository.ExistsAsync(electionId)) return NotFound($"Election with ID {electionId} not found!");
         if (!await _positionRepository.ExistsAsync(positionId)) return NotFound($"Position with ID {positionId} not found!");
 
-        var candidates = await _candidateRepository.GetAllCandidatesInElectionAsync(positionId);
+        var candidates = await _candidateRepository.GetAllCandidatesContestingForPositionAsync(positionId);
 
         return Ok(candidates);
     }
@@ -81,7 +81,7 @@ public class CandidatesController(IElectionRepository electionRepository, ICandi
 
         var candidateEntity = _mapper.Map<Candidate>(candidateDto);
 
-        await _positionRepository.AddCandidateToPosition(electionId, positionId, candidateEntity);
+        await _positionRepository.AddCandidateToPositionAsync(electionId, positionId, candidateEntity);
         await _positionRepository.SaveChangesAsync();
 
         return CreatedAtRoute(nameof(GetCandidateById), new

@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using ElectronicVotingSystem.WebAPI.Models;
 using ElectronicVotingSystem.WebAPI.Entities;
 using ElectronicVotingSystem.WebAPI.Interfaces;
-using ElectronicVotingSystem.WebAPI.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections;
-using System.Linq;
 
 namespace ElectronicVotingSystem.WebAPI.Controllers;
 
@@ -16,9 +14,9 @@ namespace ElectronicVotingSystem.WebAPI.Controllers;
 /// <param name="ballotRepository"></param>
 /// <param name="mapper"></param>
 [Authorize]
-[Route("api/election/{electionId}/ballots")]
 [ApiController]
 [Produces("application/json")]
+[Route("api/election/{electionId}/ballots")]
 public class BallotsController(IElectionRepository electionRepository, IBallotRepository ballotRepository, IMapper mapper) : BaseController
 {
     private readonly IElectionRepository _electionRepository = electionRepository;
@@ -38,7 +36,7 @@ public class BallotsController(IElectionRepository electionRepository, IBallotRe
         if (!await _electionRepository.ExistsAsync(electionId))
             return NotFound($"Election with ID {electionId} not found!");
 
-        var ballotEntity = await _ballotRepository.GetBallotById(ballotId);
+        var ballotEntity = await _ballotRepository.GetBallotByIdAsync(ballotId);
 
         return Ok(ballotEntity);
     }
@@ -61,8 +59,7 @@ public class BallotsController(IElectionRepository electionRepository, IBallotRe
             return NotFound("User not authenticated or found");
         }
 
-        if (!await _electionRepository.ExistsAsync(electionId))
-            return NotFound($"Election with ID {electionId} not found!");
+        if (!await _electionRepository.ExistsAsync(electionId)) return NotFound($"Election with ID {electionId} not found!");
         // Other validations from values in the ballot dto
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -71,9 +68,9 @@ public class BallotsController(IElectionRepository electionRepository, IBallotRe
         ballotEntity.VoterId = userId;
         ballotEntity.ElectionId = electionId;
 
-        await _electionRepository.CastBallotInAnElection(electionId, ballotEntity);
+        await _electionRepository.CastBallotInAnElectionAsync(electionId, ballotEntity);
         await _electionRepository.SaveChangesAsync();
-            
+
         return CreatedAtAction(nameof(GetBallotById), new
         {
             electionId,

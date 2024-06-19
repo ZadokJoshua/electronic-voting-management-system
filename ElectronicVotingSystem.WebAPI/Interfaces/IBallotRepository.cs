@@ -5,7 +5,7 @@ namespace ElectronicVotingSystem.WebAPI.Interfaces;
 
 public interface IBallotRepository : IGenericRepository<Ballot>
 {
-    Task<Ballot> GetBallotById(Guid ballotId);
-    Task<IEnumerable<object>> GetResultsByElectionAsync(Guid electionId);
+    Task<Ballot> GetBallotByIdAsync(Guid ballotId);
+    Task<IEnumerable<Ballot>> GetResultsByElectionAsync(Guid electionId);
     Task<IEnumerable<object>> GetResultsByPositionAsync(Guid positionId);
 }

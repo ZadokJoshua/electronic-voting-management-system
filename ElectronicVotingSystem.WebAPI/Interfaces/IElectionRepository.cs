@@ -7,7 +7,7 @@ public interface IElectionRepository : IGenericRepository<Election>
     Task<IEnumerable<Election>> GetAllElectionsAsync(string userId);
     Task<Election> GetElectionByIdAsync(Guid electionId);
     void DeleteElection(Election election);
-    Task AddPositionToAnElection(Guid electionId, Position position);
-    Task AddPartyToAnElection(Guid electionId, Party party);
-    Task CastBallotInAnElection(Guid electionId, Ballot ballot);
+    Task AddPositionToAnElectionAsync(Guid electionId, Position position);
+    Task AddPartyToAnElectionAsync(Guid electionId, Party party);
+    Task CastBallotInAnElectionAsync(Guid electionId, Ballot ballot);
 }

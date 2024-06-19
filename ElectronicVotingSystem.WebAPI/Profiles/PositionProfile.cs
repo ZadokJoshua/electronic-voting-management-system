@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ElectronicVotingSystem.WebAPI.Entities;
 
 namespace ElectronicVotingSystem.WebAPI.Profiles;
 
@@ -8,6 +7,6 @@ public class PositionProfile : Profile
     public PositionProfile()
     {
         // For POST request
-        CreateMap<Models.UpsertPositionDto, Position>();
+        CreateMap<Models.UpsertPositionDto, Entities.Position>();
     }
 }

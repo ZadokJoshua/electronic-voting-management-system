@@ -18,7 +18,7 @@ public class CandidateRepository(ElectronicVotingSystemDbContext dbContext) :
         return await GetAll().Where(c => c.PositionId == positionId && c.Id == candidateId).FirstAsync();
     }
 
-    public async Task<IEnumerable<Candidate>> GetAllCandidatesInElectionAsync(Guid positionId)
+    public async Task<IEnumerable<Candidate>> GetAllCandidatesContestingForPositionAsync(Guid positionId)
     {
         return await GetAll().Where(c => c.PositionId == positionId).ToListAsync();
     }

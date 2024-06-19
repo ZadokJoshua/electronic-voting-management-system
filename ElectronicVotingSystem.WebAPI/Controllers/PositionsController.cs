@@ -35,7 +35,7 @@ public class PositionsController(IElectionRepository electionRepository, IPositi
     {
         if (!await _electionRepository.ExistsAsync(electionId)) return NotFound($"Election with ID {electionId} not found!");
 
-        var positions = await _positionRepository.GetAllPositionsInAnElectionAsync(electionId);
+        var positions = await _positionRepository.GetAllPositionsInElectionAsync(electionId);
         return Ok(positions);
     }
 
@@ -69,14 +69,13 @@ public class PositionsController(IElectionRepository electionRepository, IPositi
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreatePosition(Guid electionId, UpsertPositionDto positionDto)
     {
-            if (!await _electionRepository.ExistsAsync(electionId))
-            return NotFound($"Election with ID {electionId} not found!");
+        if (!await _electionRepository.ExistsAsync(electionId)) return NotFound($"Election with ID {electionId} not found!");
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         var positionEntity = _mapper.Map<Position>(positionDto);
 
-        await _electionRepository.AddPositionToAnElection(electionId, positionEntity);
+        await _electionRepository.AddPositionToAnElectionAsync(electionId, positionEntity);
         await _electionRepository.SaveChangesAsync();
 
         return CreatedAtRoute(nameof(GetPositionById), new
@@ -136,7 +135,6 @@ public class PositionsController(IElectionRepository electionRepository, IPositi
 
         _positionRepository.DeletePosition(position);
         await _positionRepository.SaveChangesAsync();
-
         return NoContent();
     }
 }

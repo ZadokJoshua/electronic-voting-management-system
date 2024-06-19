@@ -70,7 +70,7 @@ namespace ElectronicVotingSystem.WebAPI.Controllers
 
             var partyEntity = _mapper.Map<Party>(partyDto);
 
-            await _electionRepository.AddPartyToAnElection(electionId, partyEntity);
+            await _electionRepository.AddPartyToAnElectionAsync(electionId, partyEntity);
             await _partyRepository.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPartyById), new 

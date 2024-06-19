@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using ElectronicVotingSystem.WebAPI.Entities;
-using ElectronicVotingSystem.WebAPI.Models;
 
 namespace ElectronicVotingSystem.WebAPI.Profiles;
 

@@ -23,21 +23,21 @@ public class ElectionRepository(ElectronicVotingSystemDbContext dbContext) : Gen
     }
 
     // Position
-    public async Task AddPositionToAnElection(Guid electionId, Position position)
+    public async Task AddPositionToAnElectionAsync(Guid electionId, Position position)
     {
         var election = await GetElectionByIdAsync(electionId);
         election?.Positions.Add(position);
     }
 
     // Party
-    public async Task AddPartyToAnElection(Guid electionId, Party party)
+    public async Task AddPartyToAnElectionAsync(Guid electionId, Party party)
     {
         var election = await GetElectionByIdAsync(electionId);
         election?.Parties.Add(party);
     }
 
     // Ballot
-    public async Task CastBallotInAnElection(Guid electionId, Ballot ballot)
+    public async Task CastBallotInAnElectionAsync(Guid electionId, Ballot ballot)
     {
         var election = await GetElectionByIdAsync(electionId);
         election?.Ballots.Add(ballot);
