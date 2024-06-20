@@ -41,11 +41,4 @@ public class AuthService(IConfiguration configuration) : IAuthService
         var token = tokenHandler.WriteToken(securityToken);
         return token;
     }
-
-    public string DecodeUserNameFromToken(string token)
-    {
-        var indexOfTokenValue = 7;
-        var decodedToken = new JwtSecurityTokenHandler().ReadJwtToken(token[indexOfTokenValue..]);
-        return decodedToken.Payload.FirstOrDefault(x => x.Key == "user").Value.ToString();
-    }
 }
